@@ -1,0 +1,26 @@
+{%extends 'english/base.html'%}
+
+{%block title%}confirm sign up{%endblock%}
+
+{%block active_login%}active{%endblock%}
+
+{%block content%}
+<div class="container">
+    <div class="row">
+        <div class="my-div-style">
+            <h1>User Register</h1>
+            {%if confirmation%}
+                <p>ボタンを押してユーザー情報を登録</p>
+                <form method="POST" action="{%url 'account_confirm_email' confirmation.pk%}">
+                   {%csrf_token%}
+                   <button class="btn btn-primary" type="submit">confirm</button>
+                </form>
+            {%else%}
+                {%url 'account_email'as email_url%}
+
+                <p>リンクの有効期限切れ <a href="{{email_url}}">再申請</a></p>
+            {%endif%}
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -1,0 +1,25 @@
+{%extends 'english/base.html'%}
+
+{%block title%}sign up{%endblock%}
+
+{%block active_signup%}active{%endblock%}
+
+{%block content%}
+<div class="container">
+    <div class="row">
+        <div class="my-div-style">
+            <h1>Sign up</h1>
+            <form method="POST" action="{%url 'account_signup'%}">
+                {%csrf_token%}
+
+                {{form.as_p}}
+
+                {%if redirect_field_value%}
+                <input type="hidden" name="{{redirect_field_name}}" value="{{redirect_field_value}}">
+                {%endif%}
+                <button class="btn btn-primary" type="submit">register</button>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

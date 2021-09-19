@@ -1,0 +1,12 @@
+{%extends 'english/base.html'%}
+
+{%block title%}Create Playlist{%endblock%}
+
+{%block content%}
+  <h1>Create Playlist</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">送信</button>
+  </form>
+{%endblock%}

@@ -1,0 +1,20 @@
+{%extends 'english/base.html'%}
+
+{%block title%}playlist list{%endblock%}
+
+{%block content%}
+  <h1>カード一覧</h1>
+  <a class="btn btn-primary my-3" href="{% url 'english:playlist_create' %}" role="button">作成</a>
+  <div class="card-columns">
+    {% for playlist in playlist_list %}
+    <a href="{% url 'english:card_list' playlist.pk %}" class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ playlist.title }}</h5>
+        <footer>
+          <small class="text-muted">作成者: {{ playlist.user.username }}</small>
+        </footer>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+{%endblock%}

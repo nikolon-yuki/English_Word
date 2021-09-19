@@ -1,0 +1,19 @@
+{%extends 'english/base.html'%}
+
+{%block title%}card list{%endblock%}
+
+{%block content%}
+  <h1>単語一覧</h1>
+  <a class="btn btn-primary my-3" href="{% url 'english:card_create' %}" role="button">作成</a>
+  <div class="card-columns">
+    {% for card in card_lis %}
+    <a href="#" class="card"></a>
+    <div class="card-body">
+        <h5 class="card-title">{{ card.word }}</h5>
+        <h5 class="card-text">meaning:{{card.ja_word}}</h5>
+        <input type="checkbox" name="test" value="value1" />
+        <p>{{c_num_lis}}</p>
+    </div>
+    {% endfor %}
+  </div>
+{%endblock%}
