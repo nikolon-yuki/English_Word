@@ -1,0 +1,17 @@
+{%extends 'english/base.html'%}
+
+{%block title%}jojo{%endblock%}
+
+{%block content%}
+  <h1>カード一覧</h1>
+  
+  <div class="card-columns">
+    {% for result in results reversed %}
+    <a href="#" class="card">
+      <div class="card-body">
+        <h5 class="card-title">ジョ{{ result }}:ジョ{{sub}}</h5>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+{%endblock%}

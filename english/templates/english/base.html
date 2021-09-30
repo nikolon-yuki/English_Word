@@ -10,6 +10,8 @@
         <title>int</title>
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{%static 'css/styles.css'%}" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -21,6 +23,10 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         {%if user.is_authenticated%}
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{%url 'account_logout'%}">Log Out</a></li>
+                        <form method="GET" action='{%url "jojo:jojo_list" %}'>
+                            <input type="text" name="keyword">
+                            <button class="btn btn-primary" type="submit">検索</button>
+                        </form>
                         {%else%}
                         <li class="nav-item{%block active_signup%}{%endblock%}"><a class="nav-link" href="{%url 'account_signup'%}">Sign Up</a></li>
                         <li class="nav-item{%block active_login%}{%endblock%}"><a class="nav-link" href="{%url 'account_login'%}">Log In</a></li>

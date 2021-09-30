@@ -4,6 +4,12 @@
 
 {%block content%}
   <h1>単語一覧</h1>
+  <br>
+  <form method="GET" action=" ">
+    単語検索：
+    <input type="text" name="eng">
+    <button class="btn btn-success" type="submit">検索</button>
+  </form>
   <a class="btn btn-primary my-3" href="{% url 'english:card_create' %}" role="button">作成</a>
   <div class="card-columns">
     {% for card in card_lis %}
@@ -11,9 +17,38 @@
     <div class="card-body">
         <h5 class="card-title">{{ card.word }}</h5>
         <h5 class="card-text">meaning:{{card.ja_word}}</h5>
-        <input type="checkbox" name="test" value="value1" />
-        <p>{{c_num_lis}}</p>
+        <div class="like-outer">
+          {% include 'english/card/like.html' %}
+          <a href="{%url 'english:card_delete' card.pk%}" class="btn btn-danger">削除する</a>
+        </div> 
     </div>
     {% endfor %}
   </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(event){
+        $(document).on('click', '#like', function(event){
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'english:like' %}",
+                data: {
+                    'card_id': $(this).attr('name'),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function(response){
+                    selector = document.getElementsByName(response.article_id);
+                    if(response.liked){
+                        $(selector).html("<i class='fas fa-lg fa-heart'></i>");
+                    }
+                    else {
+                        $(selector).html("<i class='far fa-lg fa-heart'></i>");
+                    }
+                    selector2 = document.getElementsByName(response.article_id + "-count");
+                    $(selector2).text(response.count);
+                }
+            });
+        });
+    });
+  </script>
 {%endblock%}
