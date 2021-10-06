@@ -16,3 +16,11 @@ class CardForm(forms.ModelForm):
             "ja_word",
             "playlist",
         )
+    
+    def clean(self):
+        word = self.cleaned_data['word']
+        card = Card.objects.filter(word=word).exists()
+        if card:
+            raise forms.ValidationError('すでに入力されています')
+
+        return self.cleaned_data

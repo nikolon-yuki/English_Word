@@ -27,6 +27,10 @@ class Card(models.Model):
     def __str__(self):
         return self.word
 
+    @classmethod
+    def get_words(cls,pk,word):
+        return Card.objects.filter(word_get=word).exclude(pk=pk)
+
     class Meta:
         ordering = ("created_at",)
 
