@@ -10,6 +10,7 @@ from .models import Playlist, Card, Like
 from accounts.models import CustomUser
 from .forms import PlaylistForm, CardForm
 from django.http import JsonResponse, HttpResponse
+from django.template.loader import render_to_string
 
 
 # Create your views here.

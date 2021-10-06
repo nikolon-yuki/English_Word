@@ -4,5 +4,3 @@ django-bootstrap4
 django-widgets-improved
 gunicorn
 django-heroku
-# Keras
-# tensorflow

@@ -165,6 +165,10 @@ abbr[data-bs-original-title] {
           text-decoration-skip-ink: none;
 }
 
+del {
+  color: var(--bs-body-bg);
+}
+
 address {
   margin-bottom: 1rem;
   font-style: normal;
