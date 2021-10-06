@@ -1,6 +1,5 @@
-django-allauth
-django
-django-bootstrap4
-django-widgets-improved
+-r requirements-dev.txt
 gunicorn
 django-heroku
+psycopg2
+whitenoise

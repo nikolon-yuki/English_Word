@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,19 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-b&3s13v$%1-4!9v6zc_(n0h*bnib@%-52r-0t1e&8%x=77f!f-"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
-try:
-    from config.local_settings import *
-except ImportError:
-    pass
-
-if not DEBUG:
-    import django_heroku
-
-    django_heroku.settings(locals())
-
-ALLOWED_HOSTS = ['https://english-words-0820.herokuapp.com/']
+ALLOWED_HOSTS = ["*"]
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 
@@ -68,7 +59,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
+
 
 ROOT_URLCONF = "config.urls"
 
@@ -100,7 +93,6 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-import dj_database_url
 
 db_from_env = dj_database_url.config()
 DATABASES["default"].update(db_from_env)
@@ -143,7 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles')
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
@@ -175,3 +167,15 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 
 DEFAULT_FROM_EMAIL = "admin@example.com"
+
+DEBUG = True
+
+try:
+    from config.local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    import django_heroku
+
+    django_heroku.settings(locals())
