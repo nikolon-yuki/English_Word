@@ -9,7 +9,8 @@ from django.views.generic import CreateView, DetailView, DeleteView, ListView
 from .models import Playlist, Card, Like
 from accounts.models import CustomUser
 from .forms import PlaylistForm, CardForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+
 
 # Create your views here.
 # class IndexView(generic.TemplateView):
@@ -43,6 +44,19 @@ class CardCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    # def post(self, request):
+    #     card_lis = Card.objects.filter(user=request.user)
+    #     form = self.form_class(request.POST)
+    #     form.instance.user = self.request.user
+    #     for card in card_lis:
+    #         if form.instance.word == card.word:
+    #             card.count += 1
+    #             card.save()
+    #             return redirect("english:card_list", pk=card.pk)
+    #         elif card.word != form.instance.word:
+    #             context = get_success_url(self)
+    #             return context
 
 
 class CardDeleteView(LoginRequiredMixin, DeleteView):

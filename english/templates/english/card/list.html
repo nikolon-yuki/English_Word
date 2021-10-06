@@ -17,6 +17,7 @@
     <div class="card-body">
         <h5 class="card-title">{{ card.word }}</h5>
         <h5 class="card-text">meaning:{{card.ja_word}}</h5>
+        <div>{{card.count}}</div>
         <div class="like-outer">
           {% include 'english/card/like.html' %}
           <a href="{%url 'english:card_delete' card.pk%}" class="btn btn-danger">削除する</a>
@@ -39,7 +40,7 @@
                 success: function(response){
                     selector = document.getElementsByName(response.article_id);
                     if(response.liked){
-                        $(selector).html("<i class='fas fa-lg fa-heart'></i>");
+                        $(selector).html("<i class='fas fa-lg fa-heart like-red'></i>");
                     }
                     else {
                         $(selector).html("<i class='far fa-lg fa-heart'></i>");

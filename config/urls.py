@@ -20,5 +20,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("english.urls")),
     path("", include("jojo.urls")),
+    # path("", include("app1.urls")),
     path("accounts/", include("allauth.urls")),
 ]

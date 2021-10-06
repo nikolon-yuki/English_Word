@@ -26,6 +26,15 @@ SECRET_KEY = "django-insecure-b&3s13v$%1-4!9v6zc_(n0h*bnib@%-52r-0t1e&8%x=77f!f-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# try:
+#     from config.local_settings import *
+# except ImportError:
+#     pass
+
+# if not DEBUG:
+#     import django_heroku
+#     django_heroku.settings(locals())
+
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = "accounts.CustomUser"
 
@@ -45,6 +54,9 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "jojo",
+    "bootstrap4",
+    "widget_tweaks",
+    "app1",
 ]
 
 MIDDLEWARE = [
@@ -84,9 +96,12 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# import dj_database_url
+# db_from_env = dj_database_url.config()
+# DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -125,6 +140,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
@@ -140,11 +157,13 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
 )
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_USERNAME_REQUIRED = False
 
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_EMAIL_REQUIRED = "True"
+ACCOUNT_EMAIL_REQUIRED = True
 
 LOGIN_REDIRECT_URL = "english:playlist_list"
 ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"

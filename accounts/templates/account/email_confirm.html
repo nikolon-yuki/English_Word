@@ -11,12 +11,12 @@
             <h1>User Register</h1>
             {%if confirmation%}
                 <p>ボタンを押してユーザー情報を登録</p>
-                <form method="POST" action="{%url 'account_confirm_email' confirmation.pk%}">
+                <form method="POST" action="{%url 'account_confirm_email' confirmation.key%}">
                    {%csrf_token%}
                    <button class="btn btn-primary" type="submit">confirm</button>
                 </form>
             {%else%}
-                {%url 'account_email'as email_url%}
+                {%url 'account_email' as email_url%}
 
                 <p>リンクの有効期限切れ <a href="{{email_url}}">再申請</a></p>
             {%endif%}
