@@ -24,6 +24,7 @@ CRUD機能
 単語の重複防止機能  
 
 
-# おまけ
+# おまけ  
 右上の検索バーにカタカナを打ち込むと文字を並び替えてjojoにしてくれます。  
+
 ![img](https://user-images.githubusercontent.com/70869466/136584223-ab211b95-0df8-47a4-b88a-a1eb80f7b21b.png)
