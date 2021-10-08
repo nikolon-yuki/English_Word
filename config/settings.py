@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "allauth",
     "allauth.account",
-    "allauth.socialaccount",
     "jojo",
     "bootstrap4",
     "widget_tweaks",
