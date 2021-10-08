@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "allauth",
     "allauth.account",
+    "allauth.socialaccount",
     "jojo",
     "bootstrap4",
     "widget_tweaks",
@@ -135,7 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 
-STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
@@ -144,6 +145,16 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+# メール送信の設定
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.googlemail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "ystk0916amr@gmail.com"
+EMAIL_HOST_PASSWORD = "wyhlngcboyordxbp"
+# EMAIL_HOST_PASSWORD = "bgkr tyqn mkkp lqas"
+
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = (
@@ -151,22 +162,20 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
 )
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_USERNAME_REQUIRED = False
-
+ACCOUNT_EMAIL_REQUIRED = True  # Eメール必須
+ACCOUNT_USERNAME_REQUIRED = True  # ユーザー名必須
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True  # パスワード２回入力
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"  # Eメールで認証を行う
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_EMAIL_REQUIRED = True
 
 LOGIN_REDIRECT_URL = "english:playlist_list"
 ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
 
 ACCOUNT_LOGOUT_ON_GET = True
-
-ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
-
-DEFAULT_FROM_EMAIL = "admin@example.com"
+ACCOUNT_UNIQUE_EMAIL = True
 
 DEBUG = True
 
