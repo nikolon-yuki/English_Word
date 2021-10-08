@@ -1,7 +1,7 @@
 
 ### 英単語帳アプリ
 
-![サイトURL](english-words-0820.herokuapp.com)
+[サイトURL](english-words-0820.herokuapp.com)
 
 ## アプリ概要
 英単語と日本語訳を入力して、あなただけの単語帳を作ることができます。  
