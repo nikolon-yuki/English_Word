@@ -15,7 +15,7 @@ from django.template.loader import render_to_string
 import json
 import requests
 
-SEARCH_URL = "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&applicationId=1036071663739197165"
+SEARCH_URL =
 
 
 def get_api_data(params):
