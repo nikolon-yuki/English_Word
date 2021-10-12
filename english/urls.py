@@ -12,6 +12,8 @@ urlpatterns = [
     path("", views.PlaylistListView.as_view(), name="playlist_list"),
     path("card/create/", views.CardCreateView.as_view(), name="card_create"),
     path("card/list/<int:pk>/", views.card_list, name="card_list"),
-    path("card/delete/<int:pk>/", views.CardDeleteView.as_view(), name="card_delete"),
+    path("playlist/delete/<int:pk>", views.PlaylistDeleteView.as_view(), name="playlist_delete"),
     path("card/like/", views.likeview, name="like"),
+    path("index/", views.IndexView.as_view(), name="index"),
+    path("detail/<str:isbn>", views.DetailView.as_view(), name="detail"),
 ]

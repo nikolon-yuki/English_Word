@@ -1,0 +1,29 @@
+{%extends 'english/base.html'%}
+
+{%block title%}search{%endblock%}
+
+{%block content%}
+
+<div class="text-center my-5">
+    <div class="mb-5">
+        <h3>{{keyword}}の検索結果</h3>
+    </div>
+    <div class="row">
+        {%for book in book_data %}
+        <div class="col-3 mb-3">
+            <div class="card img-thumbnail booklist h-100">
+                <img src="{{book.image}}" alt="" class="card-image-top card-thum">
+                <div class="card-body text-center px-2 py-3">
+                    <h5 class="font-weigh-bold">{{book.title}}</h5>
+                    <h5>{{book.isbn}}</h5>
+                </div>
+                <a href="{% url 'english:detail' book.isbn %}" class="stretched-link"></a>
+            </div>
+        </div>
+        {%empty%}
+        <p>当てはまるものはありませんでした</p>
+        {%endfor%}
+    </div>
+</div>
+
+{%endblock%}

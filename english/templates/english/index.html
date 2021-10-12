@@ -1,9 +1,14 @@
 {%extends 'english/base.html'%}
 
-{%block title%}tomorrow{%endblock%}
+{%block title%}index{%endblock%}
 
 {%block content%}
 
-<h1>tomorrow</h1>
+<form method="post">
+    {%csrf_token%}
+    単語検索：
+    <input type="text" name='title' placeholder="書籍名">
+    <button class="btn btn-success" type="submit">検索</button>
+</form>
 
 {%endblock%}

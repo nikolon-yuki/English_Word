@@ -5,15 +5,16 @@
 {%block content%}
   <h1>カード一覧</h1>
   <a class="btn btn-primary my-3" href="{% url 'english:playlist_create' %}" role="button">作成</a>
-  <div class="card-columns">
+  <div class="card-columns ">
     {% for playlist in playlist_list %}
     <a href="{% url 'english:card_list' playlist.pk %}" class="card">
-      <div class="card-body">
+      <div class="card-body ">
         <h5 class="card-title">{{ playlist.title }}</h5>
         <footer>
           <small class="text-muted">作成者: {{ playlist.user.username }}</small>
-        </footer>
+        </footer> 
       </div>
+      <a href="{%url 'english:playlist_delete' playlist.pk%}" class="col btn btn-danger my-3">削除する</a>
     </a>
     {% endfor %}
   </div>

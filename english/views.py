@@ -4,18 +4,25 @@ from django.http import QueryDict
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views import generic
+from django.views.generic import View
 from django.db.models import Q
 from django.views.generic import CreateView, DetailView, DeleteView, ListView
 from .models import Playlist, Card, Like
 from accounts.models import CustomUser
-from .forms import PlaylistForm, CardForm
+from .forms import PlaylistForm, CardForm, SearchForm
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
+import json
+import requests
+
+SEARCH_URL = "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&applicationId=1036071663739197165"
 
 
-# Create your views here.
-# class IndexView(generic.TemplateView):
-#     template_name='english/index.html'
+def get_api_data(params):
+    api = requests.get(SEARCH_URL, params=params).text
+    result = json.loads(api)
+    items = result["Items"]
+    return items
 
 
 class PlaylistCreateView(LoginRequiredMixin, CreateView):
@@ -46,26 +53,12 @@ class CardCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    # def post(self, request):
-    #     card_lis = Card.objects.filter(user=request.user)
-    #     form = self.form_class(request.POST)
-    #     form.instance.user = self.request.user
-    #     for card in card_lis:
-    #         if form.instance.word == card.word:
-    #             card.count += 1
-    #             card.save()
-    #             return redirect("english:card_list", pk=card.pk)
-    #         elif card.word != form.instance.word:
-    #             context = get_success_url(self)
-    #             return context
 
+class PlaylistDeleteView(LoginRequiredMixin, DeleteView):
+    model = Playlist
+    template_name = "english/playlist/delete.html"
 
-class CardDeleteView(LoginRequiredMixin, DeleteView):
-    model = Card
-    template_name = "english/card/delete.html"
-
-    def get_success_url(self):
-        return reverse_lazy("english:card_list", kwargs={"pk": self.object.pk})
+    success_url = reverse_lazy('english:playlist_list')
 
 
 @login_required
@@ -110,3 +103,73 @@ def likeview(request):
         }
     if request.is_ajax():
         return JsonResponse(params)
+
+
+class IndexView(View):
+    def get(self, request, *args, **kwargs):
+        form = SearchForm(request.POST or None)
+
+        return render(request, "english/index.html", {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        form = SearchForm(request.POST or None)
+
+        if form.is_valid():
+            keyword = form.cleaned_data["title"]
+            params = {
+                "title": keyword,
+                "hits": 30,
+            }
+            items = get_api_data(params)
+            book_data = []
+            for i in items:
+                item = i["Item"]
+                title = item["title"]
+                image = item["largeImageUrl"]
+                isbn = item["isbn"]
+                query = {
+                    "title": title,
+                    "image": image,
+                    "isbn": isbn,
+                }
+                book_data.append(query)
+
+            return render(
+                request,
+                "english/search.html",
+                {
+                    "book_data": book_data,
+                    "keyword": keyword,
+                },
+            )
+        return render(request, "english/playlist/list.html", {"form": form})
+
+class DetailView(View):
+    def get(self, request, *args, **kwargs):
+        isbn = self.kwargs['isbn']
+        params = {"isbn": isbn}
+
+        items = get_api_data(params)
+        items = items[0]
+        item = items["Item"]
+        title = item["title"]
+        image = item["largeImageUrl"]
+        itemPrice = item["itemPrice"]
+        salesDate = item["salesDate"]
+        publisherName = item["publisherName"]
+        isbn = item["isbn"]
+        itemUrl = item["itemUrl"]
+        itemCaption = item["itemCaption"]
+
+        book_data = {
+            "title": title,
+            "image": image,
+            "itemPrice": itemPrice,
+            "salesDate": salesDate,
+            "publisherName": publisherName,
+            "isbn": isbn,
+            "itemUrl": itemUrl,
+            "itemCaption": itemCaption,
+        }
+
+        return render(request, "english/detail.html", {"book_data": book_data})
