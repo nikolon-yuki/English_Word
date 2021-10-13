@@ -9,13 +9,16 @@ from django.db.models import Q
 from django.views.generic import CreateView, DetailView, DeleteView, ListView
 from .models import Playlist, Card, Like
 from accounts.models import CustomUser
-from .forms import PlaylistForm, CardForm, SearchForm
+from .forms import PlaylistForm, CardForm, SearchForm, DeeplForm
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
 import json
 import requests
+import deepl
 
-SEARCH_URL =
+SEARCH_URL = "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&applicationId=1036071663739197165"
+
+translator = deepl.Translator("afcb9f3d-bd19-11ce-8aed-6b71bfb74e57:fx")
 
 
 def get_api_data(params):
@@ -23,6 +26,11 @@ def get_api_data(params):
     result = json.loads(api)
     items = result["Items"]
     return items
+
+
+def deepl_data(keyword):
+    result = translator.translate_text(keyword, target_lang="JA")
+    return result
 
 
 class PlaylistCreateView(LoginRequiredMixin, CreateView):
@@ -58,7 +66,7 @@ class PlaylistDeleteView(LoginRequiredMixin, DeleteView):
     model = Playlist
     template_name = "english/playlist/delete.html"
 
-    success_url = reverse_lazy('english:playlist_list')
+    success_url = reverse_lazy("english:playlist_list")
 
 
 @login_required
@@ -144,9 +152,10 @@ class IndexView(View):
             )
         return render(request, "english/playlist/list.html", {"form": form})
 
+
 class DetailView(View):
     def get(self, request, *args, **kwargs):
-        isbn = self.kwargs['isbn']
+        isbn = self.kwargs["isbn"]
         params = {"isbn": isbn}
 
         items = get_api_data(params)
@@ -173,3 +182,28 @@ class DetailView(View):
         }
 
         return render(request, "english/detail.html", {"book_data": book_data})
+
+
+class DeeplView(View):
+    def get(self, request, *args, **kwargs):
+        form = DeeplForm(request.POST or None)
+
+        return render(request, "english/deepl.html", {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        form = DeeplForm(request.POST or None)
+
+        if form.is_valid():
+            keyword = form.cleaned_data["text"]
+            items = deepl_data(keyword)
+            word_data = items.text
+
+            return render(
+                request,
+                "english/result.html",
+                {
+                    "word_data": word_data,
+                    "keyword": keyword,
+                },
+            )
+        return render(request, "english/playlist/list.html", {"form": form})

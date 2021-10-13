@@ -28,3 +28,12 @@ class CardForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     title = forms.CharField(label="書籍名", max_length=200, required=True)
+
+
+class DeeplForm(forms.Form):
+    text = forms.CharField(
+        label="word",
+        max_length=200,
+        required=True,
+        widget=forms.Textarea(attrs={"cols": "80", "rows": "10"}),
+    )
