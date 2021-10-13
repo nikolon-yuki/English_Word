@@ -14,6 +14,7 @@ class CardForm(forms.ModelForm):
         fields = (
             "word",
             "ja_word",
+            "memo",
             "playlist",
         )
 

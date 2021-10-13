@@ -22,6 +22,7 @@ class Card(models.Model):
     ja_word = models.CharField(max_length=100)
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
     count = models.IntegerField(default=0)
+    memo = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

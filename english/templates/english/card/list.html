@@ -15,8 +15,9 @@
     {% for card in card_lis %}
     <a href="#" class="card"></a>
     <div class="card-body">
-        <h5 class="card-title text-center">{{ card.word }}</h5>
-        <h5 class="card-text text-center">{{card.ja_word}}</h5>
+        <h3 class="card-title text-center">{{ card.word }}</h3>
+        <h3 class="card-text text-center">{{card.ja_word}}</h3>
+        <p class="card-title text-center text-black-50">{{card.memo}}</p>
         <div class="text-center" id="like">
           {% include 'english/card/like.html' %}
         </div> 
