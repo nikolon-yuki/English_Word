@@ -17,7 +17,9 @@ import requests
 import deepl
 
 
+SEARCH_URL = "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&applicationId=1036071663739197165"
 
+translator = deepl.Translator("afcb9f3d-bd19-11ce-8aed-6b71bfb74e57:fx")
 
 
 
