@@ -20,7 +20,6 @@ import deepl
 
 
 
-
 def get_api_data(params):
     api = requests.get(SEARCH_URL, params=params).text
     result = json.loads(api)
